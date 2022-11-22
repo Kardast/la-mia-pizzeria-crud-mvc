@@ -39,6 +39,14 @@ else
                         <td>
                             <a href="@Url.Action("Details",new {id = pizza.Id})"><button type="button" class="btn btn-info"> Dettagli Pizza </button></a>
                         </td>
+                        <td>
+                            <a href="@Url.Action("Update",new {id = pizza.Id})"><button type="button" class="btn btn-warning"> Modifica Pizza </button></a>
+                        </td>
+                        <td>
+                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                <button type="submit" class="btn btn-danger"> Elimina Pizza </button>
+                            </form>
+                        </td>
                     </tr>
                 }
             }

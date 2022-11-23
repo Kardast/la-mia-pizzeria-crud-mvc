@@ -84,28 +84,43 @@ namespace la_mia_pizzeria_static.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, PizzaForm formData)
         {
+            // ---Metodo implicito---
+
+            //da mettere qui per evitare problemi con update nello scenario seguente
+            //1. dati invalidi
+            //2. dati validi
+            formData.Pizza.Id = id;
 
             if (!ModelState.IsValid)
             {
+                //return View(postItem);
                 formData.Categories = db.Categories.ToList();
                 return View(formData);
             }
+            db.Pizzas.Update(formData.Pizza);
 
-            Pizza pizzaItem = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            // ---Metodo esplicito---
 
-            if (pizzaItem == null)
-            {
-                return NotFound();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    formData.Categories = db.Categories.ToList();
+            //    return View(formData);
+            //}
 
-            pizzaItem.Name = formData.Pizza.Name;
-            pizzaItem.Description = formData.Pizza.Description;
-            pizzaItem.Image = formData.Pizza.Image;
-            pizzaItem.Cost = formData.Pizza.Cost;
-            pizzaItem.CategoryId = formData.Pizza.CategoryId;
+            //Pizza pizzaItem = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+
+            //if (pizzaItem == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //pizzaItem.Name = formData.Pizza.Name;
+            //pizzaItem.Description = formData.Pizza.Description;
+            //pizzaItem.Image = formData.Pizza.Image;
+            //pizzaItem.Cost = formData.Pizza.Cost;
+            //pizzaItem.CategoryId = formData.Pizza.CategoryId;
 
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
 

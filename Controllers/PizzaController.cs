@@ -66,54 +66,45 @@ namespace la_mia_pizzeria_static.Controllers
         //update page
         public IActionResult Update(int id)
         {
-            Pizza pizza = db.Pizzas.Where(p => p.Id == id).FirstOrDefault();
+            Pizza pizza = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
             if (pizza == null)
                 return NotFound();
 
-            return View(pizza);
+            PizzaForm formData = new PizzaForm();
+
+            formData.Pizza = pizza;
+            formData.Categories = db.Categories.ToList();
+
+            return View(formData);
         }
 
         //update save
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizza formData)
+        public IActionResult Update(int id, PizzaForm formData)
         {
 
             if (!ModelState.IsValid)
             {
+                formData.Categories = db.Categories.ToList();
                 return View(formData);
             }
 
-            Pizza pizza = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            Pizza pizzaItem = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
-            if (pizza == null)
+            if (pizzaItem == null)
             {
                 return NotFound();
             }
 
-            pizza.Name = formData.Name;
-            pizza.Description = formData.Description;
-            pizza.Image = formData.Image;
-            pizza.Cost = formData.Cost;
+            pizzaItem.Name = formData.Pizza.Name;
+            pizzaItem.Description = formData.Pizza.Description;
+            pizzaItem.Image = formData.Pizza.Image;
+            pizzaItem.Cost = formData.Pizza.Cost;
+            pizzaItem.CategoryId = formData.Pizza.CategoryId;
 
-
-            //if (!ModelState.IsValid)
-            //{
-            //    formData.Categories = db.Categories.ToList();
-            //    return View(formData);
-            //}
-            //Pizza pizzaItem = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
-            //if (postItem == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //pizzaItem.Name = formData.Pizza.Name;
-            //pizzaItem.Description = formData.Pizza.Description;
-            //pizzaItem.Image = formData.Pizza.Image;
-            //pizzaItem.CategoryId = formData.Pizza.CategoryId;
-
+            db.Pizzas.Update(formData.Pizza);
             db.SaveChanges();
 
             return RedirectToAction("Index");

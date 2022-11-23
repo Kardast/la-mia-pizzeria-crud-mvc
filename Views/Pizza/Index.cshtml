@@ -18,38 +18,43 @@ else
                 <th>Descrizione</th>
                 <th>Immagine</th>
                 <th>Costo</th>
+                <th>Categorie</th>
+                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
             @foreach (Pizza pizza in Model)
             {
-                @if(pizza.Available == true)
+                <tr>
+                    <td><a href="@Url.Action("Details",new {id = pizza.Id})">@pizza.Id</a></td>
+                    <td class="title">@pizza.Name</td>
+                    <td class="description">
+                        @pizza.Description
+                    </td>
+                    <td class="image">
+                        <img class="post-list-image" src="@pizza.Image" alt="mmm pizza" width="900" height="400">
+                    </td>
+                    <td class="price">
+                        @pizza.Cost €
+                    </td>
+                    <td class="category">
+                        @pizza.Category.Name
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Details",new {id = pizza.Id})"><button type="button" class="btn btn-info"> Dettagli Pizza </button></a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Update",new {id = pizza.Id})"><button type="button" class="btn btn-warning"> Modifica Pizza </button></a>
+                    </td>
+                    <td>
+                        <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                            <button type="submit" class="btn btn-danger"> Elimina Pizza </button>
+                        </form>
+                    </td>
+                </tr>
+@*                @if(pizza.Available == true)
                 {
-                    <tr>
-                        <td><a href="@Url.Action("Details",new {id = pizza.Id})">@pizza.Id</a></td>
-                        <td class="title">@pizza.Name</td>
-                        <td class="description">
-                            @pizza.Description
-                        </td>
-                        <td class="image">
-                            <img class="post-list-image" src="@pizza.Image" alt="mmm pizza" width="900" height="400">
-                        </td>
-                        <td class="price">
-                            @pizza.Cost €
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Details",new {id = pizza.Id})"><button type="button" class="btn btn-info"> Dettagli Pizza </button></a>
-                        </td>
-                        <td>
-                            <a href="@Url.Action("Update",new {id = pizza.Id})"><button type="button" class="btn btn-warning"> Modifica Pizza </button></a>
-                        </td>
-                        <td>
-                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
-                                <button type="submit" class="btn btn-danger"> Elimina Pizza </button>
-                            </form>
-                        </td>
-                    </tr>
-                }
+                }*@
             }
         </tbody>
     </table>

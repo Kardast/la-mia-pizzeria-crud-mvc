@@ -1,7 +1,11 @@
 ﻿using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Models;
+using la_mia_pizzeria_static.Models.Form;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.SqlServer.Server;
 
 namespace la_mia_pizzeria_static.Controllers
 {
@@ -17,7 +21,7 @@ namespace la_mia_pizzeria_static.Controllers
         //index
         public IActionResult Index()
         {
-            List<Pizza> listPizza = db.Pizzas.ToList();
+            List<Pizza> listPizza = db.Pizzas.Include(pizza => pizza.Category).ToList();
 
             return View(listPizza);
         }
@@ -26,7 +30,7 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Details(int id)
         {
 
-            Pizza pizza = db.Pizzas.Where(p => p.Id == id).FirstOrDefault();
+            Pizza pizza = db.Pizzas.Where(p => p.Id == id).Include("Category").FirstOrDefault();
 
             return View(pizza);
         }
@@ -34,21 +38,26 @@ namespace la_mia_pizzeria_static.Controllers
         //create page
         public IActionResult Create()
         {
-            return View();
+            PizzaForm formData = new PizzaForm();
+
+            formData.Pizza = new Pizza();
+            formData.Categories = db.Categories.ToList();
+
+            return View(formData);
         }
 
         //create save
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza pizza)
+        public IActionResult Create(PizzaForm formData)
         {
             if (!ModelState.IsValid)
             {
-                //return View(post);
-                return View();
+                formData.Categories = db.Categories.ToList();
+                return View(formData);
             }
 
-            db.Pizzas.Add(pizza);
+            db.Pizzas.Add(formData.Pizza);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -87,6 +96,23 @@ namespace la_mia_pizzeria_static.Controllers
             pizza.Description = formData.Description;
             pizza.Image = formData.Image;
             pizza.Cost = formData.Cost;
+
+
+            //if (!ModelState.IsValid)
+            //{
+            //    formData.Categories = db.Categories.ToList();
+            //    return View(formData);
+            //}
+            //Pizza pizzaItem = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            //if (postItem == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //pizzaItem.Name = formData.Pizza.Name;
+            //pizzaItem.Description = formData.Pizza.Description;
+            //pizzaItem.Image = formData.Pizza.Image;
+            //pizzaItem.CategoryId = formData.Pizza.CategoryId;
 
             db.SaveChanges();
 

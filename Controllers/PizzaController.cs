@@ -104,7 +104,6 @@ namespace la_mia_pizzeria_static.Controllers
             pizzaItem.Cost = formData.Pizza.Cost;
             pizzaItem.CategoryId = formData.Pizza.CategoryId;
 
-            db.Pizzas.Update(formData.Pizza);
             db.SaveChanges();
 
             return RedirectToAction("Index");

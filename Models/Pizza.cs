@@ -32,6 +32,11 @@ namespace la_mia_pizzeria_static.Models
         public float Cost { get; set; }
         public bool Available { get; set; }
 
+        //relazione 1 a n con Category ed è la vera e propria chiave esterna
+        public int CategoryId { get; set; }
+        //relazione 1 a n con Category l'istanza del record nelle query
+        public Category? Category { get; set; }
+
         public Pizza()
         {
 

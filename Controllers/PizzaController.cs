@@ -1,11 +1,14 @@
-﻿using la_mia_pizzeria_static.Data;
+﻿using Azure;
+using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Models;
 using la_mia_pizzeria_static.Models.Form;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.SqlServer.Server;
+using System.Diagnostics;
 
 namespace la_mia_pizzeria_static.Controllers
 {
@@ -47,6 +50,15 @@ namespace la_mia_pizzeria_static.Controllers
 
             formData.Pizza = new Pizza();
             formData.Categories = db.Categories.ToList();
+            formData.Ingredients = new List<SelectListItem>();
+
+            //creazione lista ingredienti dal db per passarli al create
+            List<Ingredient> ingredientList = db.Ingredients.ToList();
+
+            foreach (Ingredient ingredient in ingredientList)
+            {
+                formData.Ingredients.Add(new SelectListItem(ingredient.Name, ingredient.Id.ToString()));
+            }
 
             return View(formData);
         }
@@ -58,9 +70,29 @@ namespace la_mia_pizzeria_static.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //ricreazione della pagina se il modelstate non è valido
                 formData.Categories = db.Categories.ToList();
+                formData.Ingredients = new List<SelectListItem>();
+
+                List<Ingredient> ingredientList = db.Ingredients.ToList();
+
+                foreach (Ingredient ingredient in ingredientList)
+                {
+                    formData.Ingredients.Add(new SelectListItem(ingredient.Name, ingredient.Id.ToString()));
+                }
+
                 return View(formData);
             }
+
+            //associazione degli ingredienti selezionati dall'utente al modello
+            formData.Pizza.Ingredients = new List<Ingredient>();
+
+            foreach (int ingredientId in formData.SelectedIngredients)
+            {
+                Ingredient ingredient = db.Ingredients.Where(i => i.Id == ingredientId).FirstOrDefault();
+                formData.Pizza.Ingredients.Add(ingredient);
+            }
+
 
             db.Pizzas.Add(formData.Pizza);
             db.SaveChanges();

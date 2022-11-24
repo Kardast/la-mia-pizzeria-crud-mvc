@@ -31,13 +31,16 @@
                 @Model.Category.Name
             </p>
             @*ingredient*@
-            <p>
-                <strong>Ingredienti:</strong>
-                @foreach(Ingredient ingredient in Model.Ingredients)
-                {
-                    <span class="badge bg-primary">@ingredient.Name</span>
-                }
-            </p>
+            @if(Model.Ingredients.Count > 0)
+            {
+                <p>
+                    <strong>Ingredienti:</strong>
+                    @foreach(Ingredient ingredient in Model.Ingredients)
+                    {
+                        <span class="badge bg-primary">@ingredient.Name</span>
+                    }
+                </p>
+            }
         </div>
     </div>
 </div>

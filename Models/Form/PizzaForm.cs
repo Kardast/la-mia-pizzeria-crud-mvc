@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_static.Models.Form
 {
@@ -9,6 +10,9 @@ namespace la_mia_pizzeria_static.Models.Form
 
         //views: create, update, 
         public List<Category>? Categories { get; set; }
-        public List<Ingredient>? Ingredients { get; set; }
+        //views: create, update
+        public List<SelectListItem>? Ingredients { get; set; }
+        //model: create, update
+        public List<int>? SelectedIngredients { get; set; }
     }
 }

@@ -30,7 +30,12 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Details(int id)
         {
 
-            Pizza pizza = db.Pizzas.Where(p => p.Id == id).Include("Category").FirstOrDefault();
+            Pizza pizza = db.Pizzas.Where(p => p.Id == id).Include("Category").Include("Ingredients").FirstOrDefault();
+
+            if(pizza == null)
+            {
+                return NotFound();
+            }
 
             return View(pizza);
         }

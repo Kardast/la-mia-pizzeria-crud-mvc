@@ -9,5 +9,6 @@ namespace la_mia_pizzeria_static.Models.Form
 
         //views: create, update, 
         public List<Category>? Categories { get; set; }
+        public List<Ingredient>? Ingredients { get; set; }
     }
 }

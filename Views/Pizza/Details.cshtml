@@ -6,24 +6,37 @@
             <div class="d-flex align-items-center">
                 <h1 class="mt-3 mb-3">Dettagli pizza</h1>
             </div>
+            @*img*@
             <div class="post-single-image-container">
                 <img src="@Model.Image" alt="mmm pizza" width="900" height="400">
             </div>
+            @*name*@
             <p>
                 <strong>Nome:</strong>
                 @Model.Name
             </p>
+            @*description*@
             <p>
                 <strong>Descrizione:</strong>
                 @Model.Description
             </p>
+            @*cost*@
             <p>
                 <strong>Prezzo:</strong>
                 @Model.Cost
             </p>
+            @*category*@
             <p>
-                <strong>Categoria:</strong>
+                <strong>Categorie:</strong>
                 @Model.Category.Name
+            </p>
+            @*ingredient*@
+            <p>
+                <strong>Ingredienti:</strong>
+                @foreach(Ingredient ingredient in Model.Ingredients)
+                {
+                    <span class="badge bg-primary">@ingredient.Name</span>
+                }
             </p>
         </div>
     </div>

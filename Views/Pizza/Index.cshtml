@@ -41,14 +41,10 @@ else
                         @pizza.Category.Name
                     </td>
                     <td>
-                        <a href="@Url.Action("Details",new {id = pizza.Id})"><button type="button" class="btn btn-info"> Dettagli Pizza </button></a>
-                    </td>
-                    <td>
-                        <a href="@Url.Action("Update",new {id = pizza.Id})"><button type="button" class="btn btn-warning"> Modifica Pizza </button></a>
-                    </td>
-                    <td>
+                        <a href="@Url.Action("Details",new {id = pizza.Id})"><button type="button" class="m-3 btn btn-info"> Dettagli Pizza </button></a>
+                        <a href="@Url.Action("Update",new {id = pizza.Id})"><button type="button" class="m-3 btn btn-warning"> Modifica Pizza </button></a>
                         <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
-                            <button type="submit" class="btn btn-danger"> Elimina Pizza </button>
+                            <button type="submit" class="m-3 btn btn-danger"> Elimina Pizza </button>
                         </form>
                     </td>
                 </tr>

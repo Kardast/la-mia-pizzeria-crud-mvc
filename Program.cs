@@ -1,4 +1,12 @@
+using la_mia_pizzeria_static.Models.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
+
+//per far partire con db se funziona
+builder.Services.AddScoped<IDbPizzaRepository, DbPizzaRepository>();
+
+//per far partire con lista se offline
+//builder.Services.AddScoped<IDbPizzaRepository, ListPizzaRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -17,13 +17,13 @@ namespace la_mia_pizzeria_static.Controllers
     {
         PizzeriaDbContext db;
 
-        DbPizzaRepository pizzaRepository;
+        ListPizzaRepository pizzaRepository;
 
         public PizzaController() : base()
         {
             db = new PizzeriaDbContext();
 
-            pizzaRepository = new DbPizzaRepository();
+            pizzaRepository = new ListPizzaRepository();
         }
 
         //index
